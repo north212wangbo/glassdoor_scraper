@@ -6,8 +6,8 @@ import time
 import os
 import pickle
 
-USERNAME = ''
-PASSWORD = ''
+USERNAME = ''   #put username here
+PASSWORD = ''	#put password here
 
 class Glassdoor(object):
     def __init__(self):
@@ -60,7 +60,7 @@ class Glassdoor(object):
         review_divs = soup.find_all('div', {'class':'hreview'})
 
         for div in review_divs:
-            date = div.find('tt', {'class':'SL_date margBot5'}).text.strip()
+            #date = div.find('tt', {'class':'SL_date margBot5'}).text.strip()
             title = div.find('span', {'class':'summary'}).text.strip()
             rating = div.find('span', {'class':'value-title'}).get('title').strip()
 
@@ -70,7 +70,7 @@ class Glassdoor(object):
 
                 status_text = position_status[0].split()[0].strip()
             
-                position_text = position_status[1].text.strip()
+                #position_text = position_status[1].text.strip()
                 
                 location = div.find('span', {'class':'authorLocation'})
                 location_text = location.text.strip() if location else ''
@@ -82,14 +82,14 @@ class Glassdoor(object):
             misc = content_body.contents[1]
             misc_text = misc.text.strip() if str(misc).strip().startswith('<p>') else ''
 
-            pros = content_body.find('p', {'class':'pros noMargVert notranslate '})
+            pros = content_body.find('p', {'class':'pros noMargVert notranslate truncateThis'})
             pros_text = pros.text.strip() if pros else ''
 
 
-            cons = content_body.find('p', {'class':'cons noMargVert notranslate '})
+            cons = content_body.find('p', {'class':'cons noMargVert notranslate truncateThis'})
             cons_text = cons.text.strip() if cons else ''
 
-            management_advice = content_body.find('p', {'class':'adviceMgmt noMargVert notranslate '})
+            management_advice = content_body.find('p', {'class':'adviceMgmt noMargVert notranslate truncateThis'})
             management_advice_text = management_advice.text.strip() if management_advice else ''
 
             outlook_div = div.find('div', {'class':'tbl fill outlookEmpReview'})
@@ -121,10 +121,10 @@ class Glassdoor(object):
                         outlook['approves'] = "-1"
             
             review = {  
-                        'date':date,
+                        #'date':date,
                         'headline':title,
                         'rating':rating,
-                        'position':position_text,
+                        #'position':position_text,
                         'status':status_text,
                         'location':location_text,
                         'misc':misc_text,

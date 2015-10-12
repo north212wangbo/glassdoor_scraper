@@ -1,10 +1,13 @@
 from glassdoor import Glassdoor
 import time
 
-url = ''
+url = ''	#put link to company review first page here. e.g. http://www.glassdoor.com/Reviews/Amazon-com-Reviews-E6036.htm
 output_filename = 'reviews.csv'
 
 all_reviews = []
+
+page_count = 1
+page_total = 2	#put the total page you want to extract here
 
 start = time.time()
 print 'Starting Driver and logging in to Glassdoor...',
@@ -19,8 +22,8 @@ reviews = GD.parse_reviews_page()
 print len(reviews), 'reviews found on this page.',
 all_reviews.extend(reviews)
 print time.time()-start, 'seconds'
+page_count+=1
 
-page_count = 2
 next = True
 while next:
     start = time.time()
@@ -33,6 +36,8 @@ while next:
         print len(reviews), 'reviews found on this page.',
         all_reviews.extend(reviews)
         page_count +=1
+	if page_count >= page_total:
+		next = False;
     print time.time()-start, 'seconds'
 
 
@@ -40,8 +45,14 @@ while next:
 start = time.time()
 print 'Writing results to %s'%output_filename
 
-order_of_things = ["headline", "rating", "position", "status", 
-                    "location", "date", "misc", "cons",
+#order_of_things = ["headline", "rating", "position", "status", 
+#                    "location", "date", "misc", "cons",
+#                    "pros", "management_advice", 
+#                    "recommends", "outlook", 
+#                    "approves_ceo"]
+					
+order_of_things = ["headline", "rating","status", 
+                    "location","misc", "cons",
                     "pros", "management_advice", 
                     "recommends", "outlook", 
                     "approves_ceo"]
