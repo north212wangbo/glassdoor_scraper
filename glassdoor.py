@@ -94,31 +94,25 @@ class Glassdoor(object):
 
             outlook_div = div.find('div', {'class':'tbl fill outlookEmpReview'})
             outlook = {'recommends':None, 'approves':None, 'outlook':None}
-            for item in outlook_div.find_all('div', {'class':'middle'}):
-                if 'Recommends' in item.text:
-                    if 'green' in item.find('i').get('class'):
+            if outlook_div is not None:
+                for item in outlook_div.find_all('span', {'class':'middle'}):
+                    if 'Recommends' in item.text:
                         outlook['recommends'] = "1"
-                    elif 'yellow' in item.find('i').get('class'):
-                        outlook['recommends'] = "0"
-                    elif 'red' in item.find('i').get('class'):
-                        outlook['recommends'] = "-1"
-                
-                elif 'Outlook' in item.text:
-                    if 'green' in item.find('i').get('class'):
+                    elif 'Doesn\'t Recommend' in item.text:
+                        outlook['recommends'] = "-1"             
+                    elif 'Positive Outlook' in item.text:
                         outlook['outlook'] = "1"
-                    elif 'yellow' in item.find('i').get('class'):
-                        outlook['outlook'] = "0"
-                    elif 'red' in item.find('i').get('class'):
+                    elif 'Negative Outlook' in item.text:
                         outlook['outlook'] = "-1"
-            
-            for item in outlook_div.find_all('div', {'class':'cell'}):
-                if item.find('i') and item.find('span', {'class':'showDesk'}):
-                    if 'green' in item.find('i').get('class'):
-                        outlook['approves'] = "1"
-                    elif 'yellow' in item.find('i').get('class'):
+                    elif 'Neutral Outlook' in item.text:
+                        outlook['outlook'] = "0"
+                for item in outlook_div.find_all('span', {'class':'showDesk'}):
+                    if 'No opinion' in item.text:
                         outlook['approves'] = "0"
-                    elif 'red' in item.find('i').get('class'):
+                    elif 'Disapproves' in item.text:
                         outlook['approves'] = "-1"
+                    else:
+                        outlook['approves'] = "1"
             
             review = {  
                         #'date':date,
