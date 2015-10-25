@@ -82,12 +82,23 @@ class Glassdoor(object):
             misc = content_body.contents[1]
             misc_text = misc.text.strip() if str(misc).strip().startswith('<p>') else ''
 
-            pros = content_body.find('p', {'class':'pros noMargVert notranslate truncateThis'})
-            pros_text = pros.text.strip() if pros else ''
-
-
-            cons = content_body.find('p', {'class':'cons noMargVert notranslate truncateThis'})
-            cons_text = cons.text.strip() if cons else ''
+            pros_1 = content_body.find('p', {'class':'pros noMargVert notranslate truncateThis'})
+            pros_2 = content_body.find('p', {'class':'pros noMargVert notranslate truncateThis truncatedThis pointer'})
+            pros_text = None
+            if pros_1 is not None:
+                pros_text = pros_1.text.strip()				
+            elif pros_2:
+                more_content = pros_2.find('span', {'class':'moreContent'})
+                pros_text = pros_2.text.strip()+more_content.text.strip()
+            
+            cons_1 = content_body.find('p', {'class':'cons noMargVert notranslate truncateThis'})
+            cons_2 = content_body.find('p', {'class':'cons noMargVert notranslate truncateThis truncatedThis pointer'})
+            cons_text = None
+            if cons_1 is not None:
+                cons_text = cons_1.text.strip()				
+            elif cons_2:
+                more_content = cons_2.find('span', {'class':'moreContent'})
+                cons_text = cons_2.text.strip()+more_content.text.strip()
 
             management_advice = content_body.find('p', {'class':'adviceMgmt noMargVert notranslate truncateThis'})
             management_advice_text = management_advice.text.strip() if management_advice else ''
