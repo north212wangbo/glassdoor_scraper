@@ -51,7 +51,7 @@ print 'Writing results to %s'%output_filename
 #                    "recommends", "outlook", 
 #                    "approves_ceo"]
 					
-order_of_things = ["headline", "rating","status", 
+order_of_things = ["headline", "rating","status", "job_title",
                     "location","misc", "cons",
                     "pros", "management_advice", 
                     "recommends", "outlook", 

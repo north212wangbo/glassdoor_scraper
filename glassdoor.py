@@ -68,8 +68,8 @@ class Glassdoor(object):
             if position_status:
                 position_status = position_status.contents
 
-                status_text = position_status[0].split()[0].strip()
-            
+                status_text = position_status[0].split('-')[0].strip()
+                jobtitle_text = position_status[0].split('-')[1].strip()
                 #position_text = position_status[1].text.strip()
                 
                 location = div.find('span', {'class':'authorLocation'})
@@ -92,8 +92,9 @@ class Glassdoor(object):
             management_advice = content_body.find('p', {'class':'adviceMgmt noMargVert notranslate truncateThis'})
             management_advice_text = management_advice.text.strip() if management_advice else ''
 
-            outlook_div = div.find('div', {'class':'tbl fill outlookEmpReview'})
+            outlook_div = div.find('div', {'class':'flex-grid recommends'})
             outlook = {'recommends':None, 'approves':None, 'outlook':None}
+			
             if outlook_div is not None:
                 for item in outlook_div.find_all('span', {'class':'middle'}):
                     if 'Recommends' in item.text:
@@ -120,6 +121,7 @@ class Glassdoor(object):
                         'rating':rating,
                         #'position':position_text,
                         'status':status_text,
+                        'job_title':jobtitle_text,						
                         'location':location_text,
                         'misc':misc_text,
                         'pros':pros_text,
