@@ -63,6 +63,10 @@ class Glassdoor(object):
             #date = div.find('tt', {'class':'SL_date margBot5'}).text.strip()
             title = div.find('span', {'class':'summary'}).text.strip()
             rating = div.find('span', {'class':'value-title'}).get('title').strip()
+            date_div = div.find('time', {'class':'date subtle small'})
+            date = None
+            if date_div:
+                date = date_div.text.strip()
 
             position_status = div.find('span', {'class':'authorJobTitle'})
             if position_status:
@@ -127,7 +131,7 @@ class Glassdoor(object):
                         outlook['approves'] = "1"
             
             review = {  
-                        #'date':date,
+                        'date':date,
                         'headline':title,
                         'rating':rating,
                         #'position':position_text,
